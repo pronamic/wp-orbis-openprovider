@@ -79,7 +79,7 @@ class Orbis_Openprovider_Admin {
 			'edit.php?post_type=orbis_subscription',
 			__( 'Orbis Openprovider', 'orbis_openprovider' ),
 			__( 'Openprovider', 'orbis_openprovider' ),
-			'manage_options',
+			'read_orbis_openprovider',
 			'orbis_openprovider',
 			array( $this, 'page_orbis_openprovider' )
 		);
