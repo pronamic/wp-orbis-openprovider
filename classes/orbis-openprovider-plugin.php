@@ -18,8 +18,6 @@ class Orbis_Openprovider_Plugin extends Orbis_Plugin {
 	}
 
 	public function install() {
-		
-
 		parent::install();
 	}
 

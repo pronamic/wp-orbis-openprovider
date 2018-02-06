@@ -23,7 +23,7 @@ function orbis_openprovider_bootstrap() {
 	include 'classes/orbis-openprovider-admin.php';
 
 	global $orbis_openprovider_plugin;
-	
+
 	$orbis_openprovider_plugin = new Orbis_Openprovider_Plugin( __FILE__ );
 }
 

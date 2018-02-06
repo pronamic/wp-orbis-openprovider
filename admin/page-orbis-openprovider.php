@@ -16,13 +16,13 @@
 
 	?>
 	<table class="wp-list-table widefat fixed striped">
-		<thead>
+		<thead><h1>HALLO</h1>
 			<tr>
-				<th scope="col"><?php _e( 'Name', 'orbis_openprovider' ); ?></th>
-				<th scope="col"><?php _e( 'Orbis', 'orbis_openprovider' ); ?></th>
-				<th scope="col"><?php _e( 'Openprovider', 'orbis_openprovider' ); ?></th>
-				<th scope="col"><?php _e( 'Status', 'orbis_openprovider' ); ?></th>
-				<th scope="col"><?php _e( 'Autorenew', 'orbis_openprovider' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Name', 'orbis_openprovider' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Orbis', 'orbis_openprovider' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Openprovider', 'orbis_openprovider' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Status', 'orbis_openprovider' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Autorenew', 'orbis_openprovider' ); ?></th>
 			</tr>
 		</thead>
 
