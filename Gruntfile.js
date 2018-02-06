@@ -4,6 +4,23 @@ module.exports = function( grunt ) {
 		// Package
 		pkg: grunt.file.readJSON( 'package.json' ),
 		
+		dirs: {
+			ignore: [ 'build', 'node_modules', 'vendor' ].join( ',' ) 
+		},
+
+		// PHP Code Sniffer
+		phpcs: {
+			application: {
+				dir: [ '.' ],
+			},
+			options: {
+				bin: 'vendor/bin/phpcs',
+				standard: 'phpcs.ruleset.xml',
+				extensions: 'php',
+				ignore: '<%= dirs.ignore %>',
+			}
+		},
+
 		// PHPLint
 		phplint: {
 			options: {
