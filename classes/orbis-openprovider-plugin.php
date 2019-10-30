@@ -11,6 +11,9 @@ class Orbis_Openprovider_Plugin extends Orbis_Plugin {
 		if ( is_admin() ) {
 			$this->admin = new Orbis_Openprovider_Admin( $this );
 		}
+
+		// Actions
+		add_action( 'orbis_after_main_content', array( $this, 'orbis_after_main_content' ) );
 	}
 
 	public function loaded() {
@@ -18,7 +21,17 @@ class Orbis_Openprovider_Plugin extends Orbis_Plugin {
 	}
 
 	public function install() {
+		
+
 		parent::install();
+	}
+
+	public function orbis_after_main_content() {
+		if ( 'orbis_domain_name' !== get_post_type() ) {
+			return;
+		}
+
+		include __DIR__ . '/../templates/domain-name-dns-records.php';
 	}
 
 	//////////////////////////////////////////////////
@@ -62,22 +75,17 @@ class Orbis_Openprovider_Plugin extends Orbis_Plugin {
 
 	//////////////////////////////////////////////////
 
-	/**
-	 * Get Openprovider domains
-	 */
-	public function get_openprovider_domains() {
-		$domains = array();
-
-		// Request
+	private function get_xml_base() {
 		$xml = new SimpleXMLElement( '<openXML />' );
 
 		$credentials = $xml->addChild( 'credentials' );
 		$credentials->addChild( 'username', get_option( 'orbis_openprovider_username' ) );
 		$credentials->addChild( 'password', get_option( 'orbis_openprovider_password' ) );
 
-		$request = $xml->addChild( 'searchDomainRequest' );
-		$request->addChild( 'limit', 1000 );
+		return $xml;
+	}
 
+	private function request( $xml ) {
 		$url = 'https://api.openprovider.eu/';
 
 		$response = wp_remote_post( $url, array(
@@ -85,23 +93,54 @@ class Orbis_Openprovider_Plugin extends Orbis_Plugin {
 			'timeout' => 60,
 		) );
 
-		if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
-			$body = wp_remote_retrieve_body( $response );
+		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			throw new \Exception( 'Unexpected response from Openprovider' );
+		}
 
-			$xml = simplexml_load_string( $body );
+		$body = wp_remote_retrieve_body( $response );
 
-			if ( false !== $xml ) {
-				$items = $xml->reply->data->results->array->item;
+		$xml = simplexml_load_string( $body );
 
-				foreach ( $items as $item ) {
-					$domain_name      = (string) $item->domain->name;
-					$domain_extension = (string) $item->domain->extension;
+		if ( false === $xml ) {
+			throw new \Exception( 'Unexpected response from Openprovider' );
+		}
 
-					$name = $domain_name . '.' . $domain_extension;
+		return $xml;
+	}
 
-					$domains[ $name ] = $item;
-				}
-			}
+	public function get_openprovider_dns_records( $name ) {
+		$xml = $this->get_xml_base();
+
+		$request = $xml->addChild( 'searchZoneRecordDnsRequest' );
+		$request->addChild( 'name', $name );
+
+		$xml = $this->request( $xml );
+
+		return $xml;
+	}
+
+	/**
+	 * Get Openprovider domains
+	 */
+	public function get_openprovider_domains() {
+		$domains = array();
+
+		$xml = $this->get_xml_base();
+
+		$request = $xml->addChild( 'searchDomainRequest' );
+		$request->addChild( 'limit', 1000 );
+
+		$xml = $this->request( $xml );
+
+		$items = $xml->reply->data->results->array->item;
+
+		foreach ( $items as $item ) {
+			$domain_name      = (string) $item->domain->name;
+			$domain_extension = (string) $item->domain->extension;
+
+			$name = $domain_name . '.' . $domain_extension;
+
+			$domains[ $name ] = $item;
 		}
 
 		return $domains;
