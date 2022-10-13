@@ -29,7 +29,7 @@
 				$name = str_replace( $domain_name, '', $name );
 				$name = empty( $name ) ? '@' : substr( $name, 0, -1 );
 
-				if ( ! empty( $prio ) ) {
+				if ( '' !== $prio ) {
 					$value = $prio . ' ' . $value;
 				}
 
