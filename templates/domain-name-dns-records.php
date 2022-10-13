@@ -95,5 +95,7 @@
 
 		<textarea class="form-control text-nowrap text-monospace" rows="10" cols="60"><?php echo esc_textarea( implode( "\r\n", $text_lines ) ); ?></textarea>
 
+		<pre><?php echo esc_html( implode( "\r\n", $text_lines ) ); ?></pre>
+
 	</div>
 </div>
