@@ -16,7 +16,7 @@
 
 	?>
 	<table class="wp-list-table widefat fixed striped">
-		<thead><h1>HALLO</h1>
+		<thead>
 			<tr>
 				<th scope="col"><?php esc_html_e( 'Name', 'orbis_openprovider' ); ?></th>
 				<th scope="col"><?php esc_html_e( 'Orbis', 'orbis_openprovider' ); ?></th>
