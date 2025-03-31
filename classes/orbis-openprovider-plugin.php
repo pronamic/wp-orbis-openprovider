@@ -113,6 +113,7 @@ class Orbis_Openprovider_Plugin extends Orbis_Plugin {
 
 		$request = $xml->addChild( 'searchZoneRecordDnsRequest' );
 		$request->addChild( 'name', $name );
+		$request->addChild( 'limit', 500 );
 
 		$xml = $this->request( $xml );
 
