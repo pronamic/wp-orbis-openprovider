@@ -1,6 +1,13 @@
 <?php
 
 class Orbis_Openprovider_Plugin extends Orbis_Plugin {
+	/**
+	 * Admin.
+	 *
+	 * @var Orbis_Openprovider_Admin
+	 */
+	private $admin;
+
 	public function __construct( $file ) {
 		parent::__construct( $file );
 
