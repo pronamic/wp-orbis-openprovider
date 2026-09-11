@@ -21,8 +21,11 @@
 .phive
 .phpdoc
 
+.travis.yml
+
 phpdoc.dist.xml
 
+phpcs.ruleset.xml
 phpcs.xml.dist
 phpmd.ruleset.xml
 
@@ -37,3 +40,5 @@ psalm.xml
 /build/
 /deploy/
 /node_modules/
+
+/Gruntfile.js
