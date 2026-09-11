@@ -44,4 +44,8 @@ Thumbs.db
 #########
 node_modules
 release
-*.lock
+*.lock!composer.lock
+
+# Build #
+#########
+/build/
